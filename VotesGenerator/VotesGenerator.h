@@ -42,7 +42,8 @@ void generate_normal_distribution(int sample_size, int rotacion, int pos) {
 	ofstream file;
 	string filename = "votes_" + to_string(pos) + ".json";
 	file.open(filename);
-	string votes = "{\"votes\":[\n";
+	string votes = "{\"rollcalls\":[\n";
+	votes = votes + "    " + "{\"votes\":[\n";
 	normal = normal_distribution<double>(0, 1);
 	double value_x;
 	double value_y;
@@ -60,10 +61,10 @@ void generate_normal_distribution(int sample_size, int rotacion, int pos) {
 			value_y = -temp_x * sin(radian_rot) + temp_y * cos(radian_rot);
 
 		} while (euclidian_distance(value_x, value_y, 0, 0) > 1);
-		votes = votes + "    " + "{\"x\":" + to_string(value_x) + "," + "\"y\":" + to_string(value_y) + "},\n";
+		votes = votes + "        " + "{\"x\":" + to_string(value_x) + "," + "\"y\":" + to_string(value_y) + "},\n";
 	}
 	replace(votes.end() - 2, votes.end(), ',', ' ');
-	votes = votes + "]}";
+	votes = votes + "    " + "]}\n" + "]}";
 	cout << "Done!";
 	file << votes;
 }
